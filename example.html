@@ -8,9 +8,11 @@
       jQuery(document).ready(function() {
         var date = new Date(),
             dateflipper = new DateFlipper(document.getElementById('flipper')),
+
             flipUp = function() {
               date.setDate(date.getDate() + 1);
               dateflipper.set(date);
+              window.setTimeout(flipUp, 1000);
             };
 
         flipUp();

@@ -1,4 +1,4 @@
-var TimeDial = function(parent, widthY, widthM, widthD) {
+jQuery.fn.dateflipper = function(options) {
 
   var DURATION = 150,
 
@@ -98,16 +98,16 @@ var TimeDial = function(parent, widthY, widthM, widthD) {
           // Just in case an identical date was set
           checkComplete();
         }
-
       };
 
-  // Export public methods
-  this.set = set;
-
+  /*
   colYear.css('width', widthY);
   colMonth.css('width', widthM);
   colDay.css('width', widthD);
+  */
 
-  jQuery(parent).append(el);
+  console.log(this);
+  this.append(el);
+  return this;
 
 };

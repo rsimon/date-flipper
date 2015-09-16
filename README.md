@@ -12,16 +12,22 @@ A simple & small jQuery plugin for creating an animated date flipper.
 <script src="jquery.min.js"></script>
 <script src="dateflipper.min.js"></script>
 <script>
-  $('div#flipper').dateflipper();
+  jQuery(document).ready(function() {
+    $('div#flipper').dateflipper();
+  });
 </script>
 ```
 
 ### Options
 
 ```javascript
-$('div#flipper').dateflipper({
+jQuery(document).ready(function() {
 
-  // TODO
+  $('div#flipper').dateflipper({
 
+    // TODO
+
+  });
+  
 });
 ```

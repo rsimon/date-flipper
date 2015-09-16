@@ -11,6 +11,7 @@ A simple animated JavaScript date flipper component.
 ```javascript
 <script src="jquery.min.js"></script>
 <script src="dateflipper.min.js"></script>
+<link rel="stylesheet" href="dateflipper.css">
 <script>
   var dateflipper = new DateFlipper(document.getElementById('flipper'));
 </script>

@@ -5,7 +5,14 @@
     <script src="src/dateflipper.js"></script>
     <script>
       jQuery(document).ready(function() {
-        $('div#flipper').dateflipper();
+        var date = new Date(),
+            dateflipper = new DateFlipper(document.getElementById('flipper')),
+            flipUp = function() {
+              date.setDate(date.getDate() + 1);
+              dateflipper.set(date);
+            };
+
+        flipUp();
       });
     </script>
   </head>

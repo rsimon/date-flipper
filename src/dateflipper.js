@@ -1,4 +1,4 @@
-jQuery.fn.dateflipper = function(options) {
+var DateFlipper = function(parent, options) {
 
   var DURATION = 150,
 
@@ -98,16 +98,16 @@ jQuery.fn.dateflipper = function(options) {
           // Just in case an identical date was set
           checkComplete();
         }
+
       };
 
-  /*
-  colYear.css('width', widthY);
-  colMonth.css('width', widthM);
-  colDay.css('width', widthD);
-  */
+  // Export public methods
+  this.set = set;
 
-  console.log(this);
-  this.append(el);
-  return this;
+  colYear.css('width', 50);
+  colMonth.css('width', 80);
+  colDay.css('width', 50);
+
+  jQuery(parent).append(el);
 
 };

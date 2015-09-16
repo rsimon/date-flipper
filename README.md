@@ -1,6 +1,6 @@
-# Date Flipper
+# dateflipper.js
 
-A simple animated JavaScript date flipper.
+A simple animated JavaScript date flipper component.
 [See it in action](http://raw.githubusercontent.com/rsimon/date-flipper/master/example.html).
 
 ## Usage

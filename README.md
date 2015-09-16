@@ -1,25 +1,25 @@
-# Time Dial
+# Date Flipper
 
-A simple & small jQuery plugin for creating an animated time dial.
-[See it in action](http://raw.githubusercontent.com/rsimon/time-dial/master/example.html).
+A simple & small jQuery plugin for creating an animated date flipper.
+[See it in action](http://raw.githubusercontent.com/rsimon/date-flipper/master/example.html).
 
 ## Usage
 
 ```javascript
-<div id="my-dial"></div>
+<div id="flipper"></div>
 ```
 ```javascript
 <script src="jquery.min.js"></script>
-<script src="timedial.min.js"></script>
+<script src="dateflipper.min.js"></script>
 <script>
-  $('div#my-dial').timedial();
+  $('div#flipper').dateflipper();
 </script>
 ```
 
 ### Options
 
 ```javascript
-$('div#my-dial').timedial({
+$('div#flipper').dateflipper({
 
   // TODO
 

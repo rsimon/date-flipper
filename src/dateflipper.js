@@ -2,6 +2,9 @@ var DateFlipper = function(parent, options) {
 
   var DURATION = 150,
 
+      MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                     'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+
       el = jQuery(
         '<div class="timedial-container">' +
         '  <div class="timedial-column year"><p></p></div>' +
@@ -9,7 +12,7 @@ var DateFlipper = function(parent, options) {
         '  <div class="timedial-column day"><p></p></div>' +
         '</div>'),
 
-      year, month, day,
+      currentDate, currentYear, currentMonth, currentDay,
 
       busy = false,
 
@@ -19,11 +22,13 @@ var DateFlipper = function(parent, options) {
       colMonth = el.find('.timedial-column.month'),
       colDay = el.find('.timedial-column.day'),
 
-      /** Helper function to scroll one column **/
-      scroll = function(column, onComplete) {
+      /** Helper function to scroll one column up **/
+      scrollUp = function(column, nextValue, onComplete) {
         var first = column.children().first(),
             lineheight = first.outerHeight(),
             colTop = column.position().top;
+
+        column.append('<p>' + nextValue + '</p>');
 
         column.animate({ top: colTop - lineheight }, {
           duration: DURATION,
@@ -35,68 +40,87 @@ var DateFlipper = function(parent, options) {
         });
       },
 
+      /** Helper function to scroll one column down **/
+      scrollDown = function(column, nextValue, onComplete) {
+        var last = column.children().last(),
+            lineheight = last.outerHeight(),
+            colTop = column.position().top;
+
+        column.css('top', colTop - lineheight);
+        column.prepend('<p>' + nextValue + '</p>');
+
+        column.animate({ top: colTop }, {
+          duration: DURATION,
+          complete: function() {
+            last.remove();
+            onComplete();
+          }
+        });
+      },
+
+      checkComplete = function(completeY, completeM, completeD) {
+        var currentlyPending = pending;
+        if (completeY && completeM && completeD) {
+          busy = false;
+          if (pending) {
+            pending = false;
+            set(currentlyPending);
+          }
+        }
+      },
+
       /** Sets the dial to the specified year, month and day **/
-      set = function(y, m, d) {
-        var scrollCompleteY = false,
-            scrollCompleteM = false,
-            scrollCompleteD = false,
+      set = function(date) {
+        var y = date.getFullYear(),
+            m = MONTH_NAMES[date.getMonth()],
+            d = date.getDate(),
 
-            checkComplete = function() {
-              if (scrollCompleteY && scrollCompleteM && scrollCompleteD) {
-                busy = false;
-                if (pending) {
-                  var y = pending.y,
-                      m = pending.m,
-                      d = pending.d;
+            completeY = false,
+            completeM = false,
+            completeD = false,
 
-                  pending = false;
-                  set(y, m, d);
-                }
-              }
-            };
+            scroll = ((currentDate - date) < 0) ? scrollUp : scrollDown;
 
         if (busy) {
           // Update animation currently running - just buffer the update for later
-          pending = { y: y, m: m, d: d };
+          pending = date;
         } else {
           busy = true;
+          currentDate = new Date(date.getTime());
 
-          if (y === year) {
+          if (y === currentYear) {
             // No change - just set flag to completed
-            scrollCompleteY = true;
+            completeY = true;
           } else {
-            year = y;
-            colYear.append('<p>' + y + '</p>');
-            scroll(colYear, function() {
-              scrollCompleteY = true;
-              checkComplete();
+            currentYear = y;
+            scroll(colYear, y, function() {
+              completeY = true;
+              checkComplete(completeY, completeM, completeD);
             });
           }
 
-          if (m === month) {
-            scrollCompleteM = true;
+          if (m === currentMonth) {
+            completeM = true;
           } else {
-            month = m;
-            colMonth.append('<p>' + m + '</p>');
-            scroll(colMonth, function() {
-              scrollCompleteM = true;
-              checkComplete();
+            currentMonth = m;
+            scroll(colMonth, m, function() {
+              completeM = true;
+              checkComplete(completeY, completeM, completeD);
             });
           }
 
-          if (d === day) {
-            scrollCompleteD = true;
+          if (d === currentDay) {
+            completeD = true;
           } else {
-            day = d;
-            colDay.append('<p>' + d + '</p>');
-            scroll(colDay, function() {
-              scrollCompleteD = true;
-              checkComplete();
+            currentDay = d;
+            scroll(colDay, d, function() {
+              completeD = true;
+              checkComplete(completeY, completeM, completeD);
             });
           }
 
-          // Just in case an identical date was set
-          checkComplete();
+          // Just in case we had an identical date set
+          checkComplete(completeY, completeM, completeD);
         }
 
       };
@@ -104,9 +128,11 @@ var DateFlipper = function(parent, options) {
   // Export public methods
   this.set = set;
 
+  /** DUMMY **/
   colYear.css('width', 50);
   colMonth.css('width', 80);
   colDay.css('width', 50);
+  /** DUMMY **/
 
   jQuery(parent).append(el);
 

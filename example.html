@@ -10,7 +10,7 @@
             dateflipper = new DateFlipper(document.getElementById('flipper')),
 
             flipUp = function() {
-              date.setDate(date.getDate() - 1);
+              date.setDate(date.getDate() + 1);
               dateflipper.set(date);
               window.setTimeout(flipUp, 300);
             };

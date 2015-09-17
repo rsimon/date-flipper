@@ -2,14 +2,16 @@ var DateFlipper = function(parent, options) {
 
   var DURATION = 150,
 
+      FIELD_STRETCH = 1.1,
+
       MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                      'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
 
       el = jQuery(
         '<div class="timedial-container">' +
-        '  <div class="timedial-column year"><p></p></div>' +
-        '  <div class="timedial-column month"><p></p></div>' +
-        '  <div class="timedial-column day"><p></p></div>' +
+        '  <div class="timedial-column year"><p>2015</p></div>' +
+        '  <div class="timedial-column month"><p>Sept</p></div>' +
+        '  <div class="timedial-column day"><p>17</p></div>' +
         '</div>'),
 
       currentDate, currentYear, currentMonth, currentDay,
@@ -21,6 +23,20 @@ var DateFlipper = function(parent, options) {
       colYear = el.find('.timedial-column.year'),
       colMonth = el.find('.timedial-column.month'),
       colDay = el.find('.timedial-column.day'),
+
+      /** Initializes the absolute widths of the fields **/
+      initFields = function() {
+        // Fields have dummy content, so that they have
+        // determined width according to the current external
+        // CSS settings. We want to fix that width (but
+        // hide the dummy content while we do).
+        el.find('p').css('opacity', 0);
+        jQuery(parent).append(el);
+
+        colYear.css('width', colYear.outerWidth() * FIELD_STRETCH);
+        colMonth.css('width', colMonth.outerWidth() * FIELD_STRETCH);
+        colDay.css('width', colDay.outerWidth() * FIELD_STRETCH);
+      },
 
       /** Helper function to scroll one column up **/
       scrollUp = function(column, nextValue, onComplete) {
@@ -125,15 +141,9 @@ var DateFlipper = function(parent, options) {
 
       };
 
+  initFields();
+
   // Export public methods
   this.set = set;
-
-  /** DUMMY **/
-  colYear.css('width', 50);
-  colMonth.css('width', 80);
-  colDay.css('width', 50);
-  /** DUMMY **/
-
-  jQuery(parent).append(el);
 
 };

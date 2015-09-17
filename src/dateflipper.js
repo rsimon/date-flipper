@@ -8,10 +8,16 @@ var DateFlipper = function(parent, options) {
                      'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
 
       el = jQuery(
-        '<div class="timedial-container">' +
-        '  <div class="timedial-column year"><p>2015</p></div>' +
-        '  <div class="timedial-column month"><p>Sept</p></div>' +
-        '  <div class="timedial-column day"><p>17</p></div>' +
+        '<div class="dateflipper-container">' +
+          '<div class="dateflipper-col dateflipper-col-year">' +
+            '<p class="dateflipper-field">2015</p>' +
+          '</div>' +
+          '<div class="dateflipper-col dateflipper-col-month">' +
+            '<p class="dateflipper-field">Sept</p>' +
+          '</div>' +
+          '<div class="dateflipper-col dateflipper-col-day">' +
+            '<p class="dateflipper-field">17</p>' +
+          '</div>' +
         '</div>'),
 
       currentDate, currentYear, currentMonth, currentDay,
@@ -20,9 +26,9 @@ var DateFlipper = function(parent, options) {
 
       pending = false,
 
-      colYear = el.find('.timedial-column.year'),
-      colMonth = el.find('.timedial-column.month'),
-      colDay = el.find('.timedial-column.day'),
+      colYear = el.find('.dateflipper-col-year'),
+      colMonth = el.find('.dateflipper-col-month'),
+      colDay = el.find('.dateflipper-col-day'),
 
       /** Initializes the absolute widths of the fields **/
       initFields = function() {
@@ -36,6 +42,8 @@ var DateFlipper = function(parent, options) {
         colYear.css('width', colYear.outerWidth() * FIELD_STRETCH);
         colMonth.css('width', colMonth.outerWidth() * FIELD_STRETCH);
         colDay.css('width', colDay.outerWidth() * FIELD_STRETCH);
+
+        el.css('height', colYear.outerHeight());
       },
 
       /** Helper function to scroll one column up **/
@@ -44,7 +52,7 @@ var DateFlipper = function(parent, options) {
             lineheight = first.outerHeight(),
             colTop = column.position().top;
 
-        column.append('<p>' + nextValue + '</p>');
+        column.append('<p class="dateflipper-field">' + nextValue + '</p>');
 
         column.animate({ top: colTop - lineheight }, {
           duration: DURATION,
@@ -63,7 +71,7 @@ var DateFlipper = function(parent, options) {
             colTop = column.position().top;
 
         column.css('top', colTop - lineheight);
-        column.prepend('<p>' + nextValue + '</p>');
+        column.prepend('<p class="dateflipper-field">' + nextValue + '</p>');
 
         column.animate({ top: colTop }, {
           duration: DURATION,

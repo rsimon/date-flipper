@@ -1,17 +1,16 @@
-.timedial-container {
+.dateflipper-container {
   position:relative;
   overflow:hidden;
-  height:18px;
 }
 
-.timedial-column {
-  text-align:left;
+.dateflipper-col {
+  text-align:center;
   position:relative;
   display:inline-block;
   vertical-align:top;
 }
 
-.timedial-column p {
+.dateflipper-col p {
   margin:0;
-  padding:0;
+  padding:0.1em 0.3em;
 }
